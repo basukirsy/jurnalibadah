@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0">
+    <title>Jurnal Ibadah</title>
+    <!-- Import Font Poppins -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+      /* ================= GLOBAL STYLES ================= */
+      * { box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+      body { background-color: #f0f4f3; margin: 0; padding: 20px; display: flex; justify-content: center; color: #2d3748; }
+      
+      .app-container { width: 100%; max-width: 900px; }
+      .mobile-view { max-width: 450px; margin: 0 auto; }
+      
+      .card { background: #ffffff; padding: 25px 20px; border-radius: 20px; box-shadow: 0 8px 24px rgba(149, 157, 165, 0.15); margin-bottom: 20px; }
+      .section-card { background: #f8faf9; border: 1px solid #e2e8f0; border-radius: 16px; padding: 15px; margin-bottom: 15px; }
+      
+      h2, h3, h4 { text-align: center; color: #1a202c; margin-top: 0; font-weight: 600; }
+      .subtitle { text-align: center; font-size: 13px; color: #718096; margin-bottom: 20px; margin-top: -10px; }
+      
+      .form-group { margin-bottom: 15px; }
+      label { font-weight: 500; font-size: 13px; margin-bottom: 8px; display: block; color: #4a5568; }
+      input, select { 
+        width: 100%; padding: 12px 15px; border: 1px solid #cbd5e0; border-radius: 12px; 
+        font-size: 14px; background-color: #fff; outline: none; transition: all 0.3s ease;
+      }
+      input:focus, select:focus { border-color: #38b2ac; box-shadow: 0 0 0 3px rgba(56, 178, 172, 0.2); }
+      
+      select { 
+        appearance: none; -webkit-appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23A0AEC0%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat; background-position: right 15px top 50%; background-size: 12px auto;
+      }
+
+      button { 
+        width: 100%; padding: 14px; border: none; border-radius: 12px; font-weight: 600; 
+        font-size: 15px; cursor: pointer; transition: transform 0.1s, opacity 0.3s; margin-top: 10px;
+      }
+      button:active { transform: scale(0.98); }
+      .btn-primary { background: linear-gradient(135deg, #319795 0%, #38b2ac 100%); color: white; box-shadow: 0 4px 12px rgba(49, 151, 149, 0.3); }
+      .btn-primary:hover { opacity: 0.9; }
+      .btn-danger { background: #fc8181; color: white; }
+      .btn-danger:hover { background: #f56565; }
+      .btn-warning { background: #f6e05e; color: #744210; }
+      .btn-sm { width: auto; padding: 6px 12px; font-size: 12px; margin-top: 0; border-radius: 8px; }
+
+      .user-profile { display: flex; align-items: center; justify-content: space-between; background: #e6fffa; padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid #b2f5ea; }
+      .user-info h3 { margin: 0; color: #234e52; font-size: 16px; text-align: left; }
+      .user-info p { margin: 2px 0 0; color: #319795; font-size: 12px; }
+      .btn-logout-icon { width: auto; padding: 8px 12px; background: #fff; color: #e53e3e; border: 1px solid #feb2b2; border-radius: 10px; font-size: 12px; margin: 0;}
+
+      table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 13px; background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+      th, td { border-bottom: 1px solid #edf2f7; padding: 12px 10px; text-align: left; }
+      th { background-color: #f7fafc; color: #4a5568; font-weight: 600; text-transform: uppercase; font-size: 11px; letter-spacing: 0.5px; }
+      .table-responsive { overflow-x: auto; border-radius: 10px; }
+      
+      .nav-tabs { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+      .nav-tabs button { flex: 1; min-width: 120px; margin-top: 0; border-radius: 10px; }
+
+      .text-center { text-align: center; }
+      .mt-3 { margin-top: 15px; }
+      .badge { display: inline-block; padding: 3px 8px; border-radius: 6px; font-size: 11px; font-weight: 600; }
+      .badge-masjid { background: #c6f6d5; color: #22543d; }
+      .badge-rumah { background: #feebc8; color: #7b341e; }
+      .badge-sendiri { background: #e2e8f0; color: #4a5568; }
+      .badge-bolong { background: #fed7d7; color: #822727; }
+    </style>
+  </head>
+  <body>
+
+    <div class="app-container">
+
+      <!-- ================= FORM LOGIN ================= -->
+      <div class="card mobile-view" id="loginCard">
+        <h2>🕌<br>Jurnal Ibadah</h2>
+        <p class="subtitle">Silakan login untuk mencatat amalan hari ini</p>
+        
+        <div class="form-group">
+          <label>Username</label>
+          <input type="text" id="username" placeholder="Masukkan NISN / ID..." inputmode="numeric">
+        </div>
+        <div class="form-group">
+          <label>Password</label>
+          <input type="password" id="password" placeholder="••••••••">
+        </div>
+        
+        <button class="btn-primary" onclick="prosesLogin()" id="btnLogin">Masuk Aplikasi</button>
+        <div id="pesanLogin" class="text-center mt-3" style="color:#e53e3e; font-size: 13px;"></div>
+      </div>
+
+
+      <!-- ================= DASHBOARD SISWA ================= -->
+      <div class="card mobile-view" id="dashboardSiswa" style="display:none;">
+        <div class="user-profile">
+          <div class="user-info">
+            <h3 id="salamSiswa">Halo, Siswa</h3>
+            <p>SMPIT Al USWAH - Banyuwangi</p>
+          </div>
+          <button class="btn-logout-icon" onclick="location.reload()">🚪 Keluar</button>
+        </div>
+
+        <p class="subtitle" style="text-align: left; margin-bottom: 10px;">Catat ibadahmu hari ini dengan jujur ya!</p>
+        
+        <input type="hidden" id="nisnSiswa"><input type="hidden" id="namaSiswa">
+        
+        <div class="section-card">
+          <h4 style="text-align:left; color:#319795; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+            🕋 Sholat Wajib 5 Waktu
+          </h4>
+          <div id="formWajibContainer"></div>
+        </div>
+
+        <div class="section-card">
+          <h4 style="text-align:left; color:#d69e2e; margin-bottom:15px; display:flex; align-items:center; gap:8px;">
+            📿 Sholat Sunnah
+          </h4>
+          <div class="form-group">
+            <label>🌙 Sholat Tahajjud (Rakaat)</label>
+            <input type="number" id="tahajjud" value="0" min="0" inputmode="numeric">
+          </div>
+          <div class="form-group">
+            <label>☀️ Sholat Dhuha (Rakaat)</label>
+            <input type="number" id="dhuha" value="0" min="0" inputmode="numeric">
+          </div>
+        </div>
+
+        <button class="btn-primary" onclick="simpanIbadah()" id="btnSimpan" style="font-size: 16px; padding: 16px;">
+          ✈️ Kirim Laporan Ibadah
+        </button>
+        <div id="pesanSiswa" class="text-center mt-3" style="color:#38a169; font-weight:bold; font-size:14px;"></div>
+      </div>
+
+
+      <!-- ================= DASHBOARD GURU ================= -->
+      <div class="card" id="dashboardGuru" style="display:none;">
+        <div class="user-profile">
+          <div class="user-info">
+            <h3 id="salamGuru">Dashboard Guru</h3>
+            <p>Panel Monitoring & Manajemen</p>
+          </div>
+          <button class="btn-logout-icon" onclick="location.reload()">🚪 Keluar</button>
+        </div>
+
+        <div class="nav-tabs">
+          <button class="btn-primary" style="background:#4a5568;" onclick="bukaTab('kelolaSiswa')">👥 Kelola Siswa</button>
+          <button class="btn-primary" onclick="bukaTab('rekapIbadah')">📊 Rekap Ibadah</button>
+        </div>
+
+        <!-- TAB: KELOLA SISWA -->
+        <div id="tabKelolaSiswa">
+          <div class="section-card">
+            <h4 id="judulFormSiswa" style="text-align:left; color:#2d3748;">Tambah Siswa Baru</h4>
+            <input type="hidden" id="nisnLama">
+            <div style="display:flex; gap:10px; flex-wrap:wrap;">
+              <div class="form-group" style="flex:1; min-width:150px;"><label>NISN</label><input type="text" id="inputNisn"></div>
+              <div class="form-group" style="flex:2; min-width:150px;"><label>Nama Lengkap</label><input type="text" id="inputNama"></div>
+              <div class="form-group" style="flex:1; min-width:100px;"><label>Kelas</label><input type="text" id="inputKelas" placeholder="Contoh: IX"></div>
+            </div>
+            <div style="display:flex; gap:10px;">
+              <button class="btn-primary" onclick="simpanDataSiswaByGuru()" id="btnSimpanSiswa" style="flex:1;">💾 Simpan Data</button>
+              <button class="btn-warning" onclick="resetFormSiswa()" id="btnBatalEdit" style="display:none; flex:1;">❌ Batal</button>
+            </div>
+            <p id="pesanGuru" class="text-center mt-3" style="color:#38a169; font-weight:600;"></p>
+          </div>
+
+          <h4 style="text-align:left; color:#4a5568; margin-top:25px;">Daftar Siswa</h4>
+          <div class="table-responsive">
+            <table>
+              <thead><tr><th>NISN</th><th>Nama</th><th>Kelas</th><th>Aksi</th></tr></thead>
+              <tbody id="tabelSiswa"></tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- TAB: REKAP IBADAH -->
+        <div id="tabRekapIbadah" style="display:none;">
+          <h4 style="text-align:left; color:#4a5568;">Riwayat Laporan Ibadah</h4>
+          <div class="table-responsive">
+            <table>
+              <thead>
+                <tr><th>Waktu Laporan</th><th>Nama (NISN)</th><th>Subuh</th><th>Dhuhur</th><th>Ashar</th><th>Maghrib</th><th>Isya</th><th>Tahajjud</th><th>Dhuha</th></tr>
+              </thead>
+              <tbody id="tabelIbadah"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ================= JAVASCRIPT ================= -->
+    <script>
+      // MASUKKAN URL WEB APP GOOGLE SCRIPT ANDA DI SINI
+      const API_URL = "PASTE_URL_WEB_APP_GOOGLE_SCRIPT_DI_SINI";
+
+      // Helper pemanggil API menggantikan google.script.run
+      async function callApi(action, data = {}) {
+        const response = await fetch(API_URL, {
+          method: "POST",
+          body: JSON.stringify({ action: action, data: data }),
+          headers: { "Content-Type": "text/plain;charset=utf-8" }
+        });
+        return await response.json();
+      }
+
+      // Form Wajib Generator
+      const sholatWajibData = [
+        { id: 'subuh', nama: 'Subuh', icon: '🌅' },
+        { id: 'dhuhur', nama: 'Dhuhur', icon: '☀️' },
+        { id: 'ashar', nama: 'Ashar', icon: '🌤️' },
+        { id: 'maghrib', nama: 'Maghrib', icon: '🌇' },
+        { id: 'isya', nama: 'Isya', icon: '🌃' }
+      ];
+      const opsi = ["Berjamaah di Masjid", "Berjamaah di Rumah", "Sendiri", "Tidak Sholat"];
+      
+      let formHTML = '';
+      sholatWajibData.forEach(s => {
+        let optionsHTML = opsi.map(opt => `<option value="${opt}">${opt}</option>`).join('');
+        formHTML += `<div class="form-group"><label>${s.icon} Sholat ${s.nama}</label><select id="${s.id}">${optionsHTML}</select></div>`;
+      });
+      document.getElementById('formWajibContainer').innerHTML = formHTML;
+
+      async function prosesLogin() {
+        var user = document.getElementById('username').value;
+        var pass = document.getElementById('password').value;
+        
+        if(!user || !pass) {
+           document.getElementById('pesanLogin').innerHTML = "Harap isi NISN dan Password!";
+           return;
+        }
+
+        document.getElementById('btnLogin').innerHTML = "⏳ Sedang mengecek...";
+        try {
+          let hasil = await callApi('cekLogin', { username: user, password: pass });
+          onSuccess(hasil);
+        } catch(err) {
+          document.getElementById('pesanLogin').innerHTML = "Koneksi terputus. Coba lagi.";
+          document.getElementById('btnLogin').innerHTML = "Masuk Aplikasi";
+        }
+      }
+
+      function onSuccess(hasil) {
+        document.getElementById('btnLogin').innerHTML = "Masuk Aplikasi";
+        if(hasil.status === 'sukses') {
+          document.getElementById('loginCard').style.display = 'none';
+          
+          if(hasil.role === 'Siswa') {
+            document.getElementById('dashboardSiswa').style.display = 'block';
+            let namaPanggilan = hasil.nama.split(' ')[0];
+            document.getElementById('salamSiswa').innerHTML = "Halo, " + namaPanggilan + " 👋";
+            
+            document.getElementById('nisnSiswa').value = document.getElementById('username').value;
+            document.getElementById('namaSiswa').value = hasil.nama;
+          } else if (hasil.role === 'Guru') {
+            document.getElementById('dashboardGuru').style.display = 'block';
+            document.getElementById('salamGuru').innerHTML = "Ustadz " + hasil.nama;
+            loadDataGuru(); 
+          }
+        } else {
+          document.getElementById('pesanLogin').innerHTML = "❌ NISN atau Password salah!";
+        }
+      }
+
+      async function simpanIbadah() {
+        var btn = document.getElementById('btnSimpan');
+        btn.innerHTML = "⏳ Mengirim Laporan..."; btn.disabled = true;
+        
+        var dataIbadah = {
+          nisn: document.getElementById('nisnSiswa').value, nama: document.getElementById('namaSiswa').value,
+          subuh: document.getElementById('subuh').value, dhuhur: document.getElementById('dhuhur').value, ashar: document.getElementById('ashar').value,
+          maghrib: document.getElementById('maghrib').value, isya: document.getElementById('isya').value,
+          tahajjud: document.getElementById('tahajjud').value, dhuha: document.getElementById('dhuha').value
+        };
+        
+        try {
+          let respon = await callApi('simpanDataSiswa', dataIbadah);
+          document.getElementById('pesanSiswa').innerHTML = "✅ " + respon;
+          btn.innerHTML = "✈️ Kirim Laporan Ibadah"; btn.disabled = false;
+          
+          document.getElementById('tahajjud').value = 0;
+          document.getElementById('dhuha').value = 0;
+          setTimeout(() => document.getElementById('pesanSiswa').innerHTML = "", 5000);
+        } catch(e) {
+          alert("Gagal mengirim data. Coba lagi.");
+          btn.innerHTML = "✈️ Kirim Laporan Ibadah"; btn.disabled = false;
+        }
+      }
+
+      // === FUNGSI GURU ===
+      function bukaTab(tabName) {
+        document.getElementById('tabKelolaSiswa').style.display = (tabName === 'kelolaSiswa') ? 'block' : 'none';
+        document.getElementById('tabRekapIbadah').style.display = (tabName === 'rekapIbadah') ? 'block' : 'none';
+        loadDataGuru();
+      }
+
+      async function loadDataGuru() {
+        let siswa = await callApi('getSemuaSiswa');
+        renderTabelSiswa(siswa);
+        let rekap = await callApi('getRekapIbadah');
+        renderTabelIbadah(rekap);
+      }
+
+      function renderTabelSiswa(data) {
+        let html = '';
+        data.forEach(siswa => {
+          html += `<tr>
+            <td><strong>${siswa.nisn}</strong></td><td>${siswa.nama}</td><td>${siswa.kelas}</td>
+            <td>
+              <button class="btn-sm btn-warning" onclick="editSiswa('${siswa.nisn}', '${siswa.nama}', '${siswa.kelas}')">✏️ Edit</button>
+              <button class="btn-sm btn-danger" onclick="hapusSiswa('${siswa.nisn}')">🗑️ Hapus</button>
+            </td>
+          </tr>`;
+        });
+        document.getElementById('tabelSiswa').innerHTML = html;
+      }
+
+      function formatStatus(status) {
+        if(status === "Berjamaah di Masjid") return `<span class="badge badge-masjid">Masjid</span>`;
+        if(status === "Berjamaah di Rumah") return `<span class="badge badge-rumah">Jamaah Rumah</span>`;
+        if(status === "Sendiri") return `<span class="badge badge-sendiri">Sendiri</span>`;
+        if(status === "Tidak Sholat") return `<span class="badge badge-bolong">Bolong</span>`;
+        return status;
+      }
+
+      function renderTabelIbadah(data) {
+        let html = '';
+        data.forEach(rek => {
+          let tgl = rek.waktu.toString().substring(0, 16); 
+          html += `<tr>
+            <td style="font-size:11px; color:#718096;">${tgl}</td>
+            <td><strong style="color:#2d3748;">${rek.nama}</strong><br><small style="color:#a0aec0;">${rek.nisn}</small></td>
+            <td>${formatStatus(rek.subuh)}</td><td>${formatStatus(rek.dhuhur)}</td>
+            <td>${formatStatus(rek.ashar)}</td><td>${formatStatus(rek.maghrib)}</td>
+            <td>${formatStatus(rek.isya)}</td>
+            <td class="text-center">${rek.tahajjud > 0 ? `<strong>${rek.tahajjud}</strong>` : '-'}</td>
+            <td class="text-center">${rek.dhuha > 0 ? `<strong>${rek.dhuha}</strong>` : '-'}</td>
+          </tr>`;
+        });
+        document.getElementById('tabelIbadah').innerHTML = html;
+      }
+
+      async function simpanDataSiswaByGuru() {
+        var nisnLama = document.getElementById('nisnLama').value;
+        var nisn = document.getElementById('inputNisn').value;
+        var nama = document.getElementById('inputNama').value;
+        var kelas = document.getElementById('inputKelas').value;
+
+        if(!nisn || !nama || !kelas) { alert("⚠️ NISN, Nama, dan Kelas wajib diisi!"); return; }
+
+        document.getElementById('btnSimpanSiswa').innerHTML = "⏳ Menyimpan...";
+        let respon;
+        if(nisnLama === "") {
+          respon = await callApi('simpanSiswaBaru', { nisn: nisn, nama: nama, kelas: kelas });
+        } else {
+          respon = await callApi('editDataSiswa', { nisnLama: nisnLama, nisnBaru: nisn, namaBaru: nama, kelasBaru: kelas });
+        }
+        responGuru(respon);
+      }
+
+      function editSiswa(nisn, nama, kelas) {
+        document.getElementById('nisnLama').value = nisn;
+        document.getElementById('inputNisn').value = nisn;
+        document.getElementById('inputNama').value = nama;
+        document.getElementById('inputKelas').value = kelas;
+        document.getElementById('judulFormSiswa').innerHTML = "✏️ Edit Data Siswa";
+        document.getElementById('btnSimpanSiswa').innerHTML = "💾 Update Data";
+        document.getElementById('btnBatalEdit').style.display = "block";
+        document.getElementById('tabKelolaSiswa').scrollIntoView({behavior: "smooth"});
+      }
+
+      function resetFormSiswa() {
+        document.getElementById('nisnLama').value = "";
+        document.getElementById('inputNisn').value = "";
+        document.getElementById('inputNama').value = "";
+        document.getElementById('inputKelas').value = "";
+        document.getElementById('judulFormSiswa').innerHTML = "Tambah Siswa Baru";
+        document.getElementById('btnSimpanSiswa').innerHTML = "💾 Simpan Data";
+        document.getElementById('btnBatalEdit').style.display = "none";
+      }
+
+      async function hapusSiswa(nisn) {
+        if(confirm("⚠️ Yakin ingin menghapus siswa dengan NISN " + nisn + "?\nData login siswa ini akan hilang.")) {
+          let respon = await callApi('hapusDataSiswa', { nisn: nisn });
+          responGuru(respon);
+        }
+      }
+
+      function responGuru(pesan) {
+        document.getElementById('pesanGuru').innerHTML = "✅ " + pesan;
+        resetFormSiswa();
+        loadDataGuru();
+        setTimeout(() => document.getElementById('pesanGuru').innerHTML = "", 4000); 
+      }
+    </script>
+  </body>
+</html>
